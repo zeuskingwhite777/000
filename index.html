@@ -45,7 +45,6 @@ h1 {
     color: white;
     border: 0;
     border-radius: 8px;
-    cursor: pointer;
 }
 @keyframes piscar {
     50% {
@@ -71,7 +70,9 @@ h1 {
         ATIVIDADE INESPERADA DETECTADA
     </div>
     <button id="botao" onclick="iniciar()">
-        TOCAR PARA VERIFICAR
+       ‼️ TOQUE PARA VERIFICAR ‼️
+ L
+    
     </button>
     <div id="contador" style="display:none;">5</div>
 </div>
@@ -79,11 +80,15 @@ h1 {
 function iniciar() {
     document.getElementById("botao").style.display = "none";
     document.getElementById("mensagem").textContent =
-        "VERIFICANDO SISTEMA...";
+        "ANÁLISE DE SISTEMA...";
     let numero = 5;
     let contador = document.getElementById("contador");
     contador.style.display = "block";
     document.body.classList.add("susto");
+    // Tenta vibrar o celular
+    if (navigator.vibrate) {
+        navigator.vibrate([500, 200, 500, 200, 700]);
+    }
     let intervalo = setInterval(() => {
         numero--;
         contador.textContent = numero;
@@ -101,18 +106,15 @@ function iniciar() {
                     color:white;
                     font-family:Arial;
                     text-align:center;
-                    padding:20px;
                 ">
-                    <div style="font-size:70px;">😂</div>
-                    <h1 style="font-size:38px;">
-                        KKKKKKKKK
+                    <div style="font-size:80px;">❤️</div>
+                    <h1 style="
+                        font-size:50px;
+                        color:white;
+                        animation:none;
+                    ">
+                        TE AMO BBXINHA 
                     </h1>
-                    <p style="font-size:22px;">
-                        CALMA, AMOR ❤️
-                    </p>
-                    <p style="font-size:18px;">
-                        ERA SÓ UMA PEGADINHA 😭
-                    </p>
                 </div>
             `;
         }
