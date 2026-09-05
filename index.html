@@ -1,125 +1,295 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚠️ ALERTA</title>
-<style>
-* {
-    box-sizing: border-box;
-}
-body {
-    margin: 0;
-    background: #000;
-    color: #ff0000;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-}
-#tela {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
-h1 {
-    font-size: 42px;
-    margin: 0 0 25px;
-    animation: piscar 0.35s infinite;
-}
-#mensagem {
-    font-size: 18px;
-    margin-bottom: 25px;
-}
-#contador {
-    font-size: 70px;
-    font-weight: bold;
-}
-#botao {
-    padding: 15px 35px;
-    font-size: 18px;
-    background: red;
-    color: white;
-    border: 0;
-    border-radius: 8px;
-}
-@keyframes piscar {
-    50% {
-        opacity: 0.15;
-    }
-}
-@keyframes tremer {
-    0% { transform: translate(0); }
-    25% { transform: translate(6px, -4px); }
-    50% { transform: translate(-6px, 4px); }
-    75% { transform: translate(4px, 5px); }
-    100% { transform: translate(0); }
-}
-.susto {
-    animation: tremer 0.08s infinite;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>System Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #000;
+            color: #ff0000;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            touch-action: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .glitch {
+            font-size: 8vw;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: glitch 0.3s infinite;
+            text-shadow: 2px 2px #ff0000, -2px -2px #00ff00;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); }
+            60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); }
+            80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+        
+        #terminal {
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 100%;
+            text-align: left;
+            overflow: hidden;
+        }
+        
+        .line {
+            opacity: 0;
+            animation: fadeIn 0.1s forwards;
+            word-break: break-all;
+            font-size: 3.5vw;
+        }
+        
+        @media (min-width: 768px) {
+            .line { font-size: 14px; }
+            .glitch { font-size: 3em; }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        #countdown {
+            font-size: 15vw;
+            margin-top: 20px;
+            color: #ff0000;
+            text-shadow: 0 0 20px #ff0000;
+            font-weight: bold;
+        }
+        
+        @media (min-width: 768px) {
+            #countdown { font-size: 4em; }
+        }
+        
+        #bsod {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0078d7;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 60px 20px;
+            z-index: 9999;
+            overflow-y: auto;
+        }
+        
+        .sad-face {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .sad-face { font-size: 100px; }
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 0, 0, 0.7);
+            animation: scan 2s linear infinite;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        @keyframes scan {
+            0% { top: -3px; }
+            100% { top: 100vh; }
+        }
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 50;
+        }
+        
+        .vibrate {
+            animation: vibrate 0.1s infinite;
+        }
+        
+        @keyframes vibrate {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, -2px); }
+            75% { transform: translate(2px, -2px); }
+            100% { transform: translate(-2px, 2px); }
+        }
+    </style>
 </head>
 <body>
-<div id="tela">
-    <h1>⚠️ ERRO CRÍTICO</h1>
-    <div id="mensagem">
-        ATIVIDADE INESPERADA DETECTADA
-    </div>
-    <button id="botao" onclick="iniciar()">
-       ‼️ TOQUE PARA VERIFICAR ‼️
- L
+    <div class="noise"></div>
+    <div class="scan-line"></div>
     
-    </button>
-    <div id="contador" style="display:none;">5</div>
-</div>
-<script>
-function iniciar() {
-    document.getElementById("botao").style.display = "none";
-    document.getElementById("mensagem").textContent =
-        "ANÁLISE DE SISTEMA...";
-    let numero = 5;
-    let contador = document.getElementById("contador");
-    contador.style.display = "block";
-    document.body.classList.add("susto");
-    // Tenta vibrar o celular
-    if (navigator.vibrate) {
-        navigator.vibrate([500, 200, 500, 200, 700]);
-    }
-    let intervalo = setInterval(() => {
-        numero--;
-        contador.textContent = numero;
-        if (numero <= 0) {
-            clearInterval(intervalo);
-            document.body.classList.remove("susto");
-            document.body.innerHTML = `
-                <div style="
-                    height:100vh;
-                    display:flex;
-                    justify-content:center;
-                    align-items:center;
-                    flex-direction:column;
-                    background:#000;
-                    color:white;
-                    font-family:Arial;
-                    text-align:center;
-                ">
-                    <div style="font-size:80px;">❤️</div>
-                    <h1 style="
-                        font-size:50px;
-                        color:white;
-                        animation:none;
-                    ">
-                        TE AMO BBXINHA 
-                    </h1>
-                </div>
-            `;
+    <div id="screen">
+        <div class="glitch">SYSTEM<br>BREACHED</div>
+        <div id="terminal"></div>
+        <div id="countdown"></div>
+    </div>
+    
+    <div id="bsod">
+        <div class="sad-face">:(</div>
+        <div style="font-size: 18px; margin-bottom: 15px; line-height: 1.4;">
+            Your device ran into a problem and needs to restart.
+        </div>
+        <div style="font-size: 14px; margin-bottom: 20px; opacity: 0.9; line-height: 1.4;">
+            We're just collecting some error info, and then we'll restart for you.
+        </div>
+        <div style="font-size: 36px; margin-top: 30px;" id="percent">0% complete</div>
+        <div style="margin-top: 60px; font-size: 12px; opacity: 0.8;">
+            Error Code: CRITICAL_PROCESS_DIED<br>
+            What failed: SYSTEM32
+        </div>
+        <div style="margin-top: 40px; font-size: 11px; opacity: 0.6; font-family: monospace;">
+            QR Code:<br>
+            ▓▓▓▓▓▓▓▓▓▓<br>
+            ▓▓▓▓▓▓▓▓▓▓<br>
+            ▓▓▓▓▓▓▓▓▓▓<br>
+            ▓▓▓▓▓▓▓▓▓▓
+        </div>
+    </div>
+
+    <script>
+        // Prevent zoom and scroll
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+        document.addEventListener('gesturechange', (e) => e.preventDefault());
+        document.addEventListener('gestureend', (e) => e.preventDefault());
+        
+        const messages = [
+            "Initializing breach protocol...",
+            "Bypassing firewall...",
+            "Accessing personal files...",
+            "Downloading: photos/*",
+            "Downloading: documents/passwords.txt",
+            "Encrypting storage...",
+            "System integrity: CRITICAL",
+            "Uploading to remote server...",
+            "Disabling security...",
+            "Installing payload...",
+            "WARNING: Device destruction in..."
+        ];
+        
+        const terminal = document.getElementById('terminal');
+        let delay = 500;
+        
+        // Vibration pattern for mobile (if supported)
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50, 100, 200]);
+            }
         }
-    }, 1000);
-}
-</script>
+        
+        messages.forEach((msg, i) => {
+            setTimeout(() => {
+                const div = document.createElement('div');
+                div.className = 'line';
+                div.textContent = '> ' + msg;
+                terminal.appendChild(div);
+                
+                // Small vibration on each message
+                if (navigator.vibrate) navigator.vibrate(20);
+                
+                // Auto-scroll to bottom
+                window.scrollTo(0, document.body.scrollHeight);
+                
+                if (i === messages.length - 1) {
+                    setTimeout(startCountdown, 1000);
+                }
+            }, delay);
+            delay += 600 + Math.random() * 800;
+        });
+        
+        function startCountdown() {
+            const countdown = document.getElementById('countdown');
+            let count = 10;
+            
+            // Intense vibration
+            vibrate();
+            
+            const timer = setInterval(() => {
+                countdown.textContent = count;
+                
+                // Flash background
+                document.body.style.background = count % 2 === 0 ? '#300' : '#000';
+                
+                // Vibration pulse
+                if (navigator.vibrate && count % 2 === 0) {
+                    navigator.vibrate(100);
+                }
+                
+                if (count <= 0) {
+                    clearInterval(timer);
+                    crash();
+                }
+                count--;
+            }, 1000);
+        }
+        
+        function crash() {
+            document.getElementById('screen').style.display = 'none';
+            document.getElementById('bsod').style.display = 'block';
+            document.body.style.background = '#0078d7';
+            
+            // Strong vibration
+            if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 1000]);
+            
+            // Fake percentage increase
+            let percent = 0;
+            setInterval(() => {
+                percent += Math.floor(Math.random() * 5);
+                if (percent > 99) percent = 99;
+                document.getElementById('percent').textContent = percent + '% complete';
+            }, 2000);
+            
+            // Try to hide Safari UI (won't work on iPhone but tries)
+            window.scrollTo(0, 1);
+        }
+        
+        // Prevent back button
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.pushState(null, null, location.href);
+        };
+    </script>
 </body>
 </html>
