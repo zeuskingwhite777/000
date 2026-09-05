@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚠️ ALERTA</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background: #000;
+    color: #ff0000;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+#tela {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+h1 {
+    font-size: 42px;
+    margin: 0 0 25px;
+    animation: piscar 0.35s infinite;
+}
+#mensagem {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+#contador {
+    font-size: 70px;
+    font-weight: bold;
+}
+#botao {
+    padding: 15px 35px;
+    font-size: 18px;
+    background: red;
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+@keyframes piscar {
+    50% {
+        opacity: 0.15;
+    }
+}
+@keyframes tremer {
+    0% { transform: translate(0); }
+    25% { transform: translate(6px, -4px); }
+    50% { transform: translate(-6px, 4px); }
+    75% { transform: translate(4px, 5px); }
+    100% { transform: translate(0); }
+}
+.susto {
+    animation: tremer 0.08s infinite;
+}
+</style>
+</head>
+<body>
+<div id="tela">
+    <h1>⚠️ ERRO CRÍTICO</h1>
+    <div id="mensagem">
+        ATIVIDADE INESPERADA DETECTADA
+    </div>
+    <button id="botao" onclick="iniciar()">
+        TOCAR PARA VERIFICAR
+    </button>
+    <div id="contador" style="display:none;">5</div>
+</div>
+<script>
+function iniciar() {
+    document.getElementById("botao").style.display = "none";
+    document.getElementById("mensagem").textContent =
+        "VERIFICANDO SISTEMA...";
+    let numero = 5;
+    let contador = document.getElementById("contador");
+    contador.style.display = "block";
+    document.body.classList.add("susto");
+    let intervalo = setInterval(() => {
+        numero--;
+        contador.textContent = numero;
+        if (numero <= 0) {
+            clearInterval(intervalo);
+            document.body.classList.remove("susto");
+            document.body.innerHTML = `
+                <div style="
+                    height:100vh;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    flex-direction:column;
+                    background:#000;
+                    color:white;
+                    font-family:Arial;
+                    text-align:center;
+                    padding:20px;
+                ">
+                    <div style="font-size:70px;">😂</div>
+                    <h1 style="font-size:38px;">
+                        KKKKKKKKK
+                    </h1>
+                    <p style="font-size:22px;">
+                        CALMA, AMOR ❤️
+                    </p>
+                    <p style="font-size:18px;">
+                        ERA SÓ UMA PEGADINHA 😭
+                    </p>
+                </div>
+            `;
+        }
+    }, 1000);
+}
+</script>
+</body>
+</html>
